@@ -28,31 +28,34 @@ MultiNet needs the input of the main dataset plus the filter functions, and it o
     
 11. Record main results in a spreadsheet.
 
+
 After the correct pre-processing, MultiNet requires from the following parameters to obtain the mentioned results:
 
-1. The creation of case: 1=Yes; 0=No
+1. The creation of biological results 1=Yes; 0=No
 
-2. The creation of control: 1=Yes; 0=No
+2. The creation of case: 1=Yes; 0=No
 
-3. The initial CpG to be selected in the input array
+3. The creation of control: 1=Yes; 0=No
 
-4. The last CpG to be selected in the input array
+4. The initial CpG to be selected in the input array
 
-5. The window size 
+5. The last CpG to be selected in the input array
 
-6. The window's overlap in percentage
+6. The window size 
 
-7. The number of intervals per window
+7. The window's overlap in percentage
 
-8. The interval's overlap in percentage
+8. The number of intervals per window
 
-9. The number of cluster per interval
+9. The interval's overlap in percentage
 
-10. The edge-joining parameter
+10. The number of cluster per interval
 
-11. The edge-joining parameter 
+11. The edge-joining parameter
 
-12. The k-means methodology
+12. The edge-joining parameter 
+
+13. The k-means methodology
 
 
 Select the parameteres and prepare your folder to obtain results as fast as the speed of light!
