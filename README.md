@@ -66,6 +66,9 @@ After the correct pre-processing, *multinet* requires from the following paramet
 
 13. The k-means methodology
 
+## Other Applications
+Out of the biological field, the program *MultiNet_Ibex35.R* contains the application of the *multinet* function to the Spanish stock data. It only uses a part of the algorithm, without the biological results (first parameter = 0).
+
 ## Citation
 As this function and the related ones are part of my thesis work, the citation to it will be needed. Once results are published, I will include here the corresponding citation.
 
