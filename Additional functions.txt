@@ -1,0 +1,21 @@
+mapper_corr_w -> A kind of Mapper algorithm with weights to each window. Parameters: object, dist_object, filter_values, num_intervals, percent_overlap, num_bins_when_clustering, method_map, pero0, corm0.
+
+corr -> Apply mapper_corr_w to each window. Parameters: a, a0 that are the initial and end position of the window.
+
+corr1 -> Join all the networks generated for each window. Parameters: mapp, graphic, links, nodes, database.
+
+difnode -> Identify the CpGs conatined in each node of the joined network and define categorical vectors for each node that will be afterwards color codes. Parameters: map, graphic2, database, subj.
+
+plotmap -> Plot the networks by the code of colors defined. Parameters: graphic2, data, text, cat, text1.
+
+difcg -> Select the nodes of interest based on the categorical vectors generated and study the CpGs contained in those nodes. Parameters: vect, cat, pointnode, database, subj, pngname, pngname1, pngname2.
+
+manhattan_methyl -> Create a Manhattan plot per chromosome and by methylation levels. Same parameters as the original manhattan function from the package qqman.
+
+bargen -> Plot the genes associated to the input CpGs and their frequency. Parameters: cg, data, num.
+
+sitegen -> Plot the region of the genome of the input CpGs, differentiated by hypo and hypermethylated sites. Parameters: cg1, cg2, data, num.
+
+islandgen -> Plot the relationship to an island differentiated by hypo and hypermethylated sites. Parameters: cg1, cg2, data, num.
+
+reset_par-> Reset original plotting parameters.
