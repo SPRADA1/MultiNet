@@ -1,12 +1,21 @@
 # MultiNet
+![multinet22](multinet22.PNG)
 
+## Overview
 MultiNet is a computational algorithm of topological data analysis (TDA) that manages high-dimensional datasets obtaining multiple results. It is a compound of different R functions of data analysis, having as basis the TDA's idea of representing the shape of the data cloud creating simplicial complexes from data. 
 
+## Installation and Sample Code
+Please follow the program guide in the MultiNet repository called *MultiNet_Main.R*.
+
+## Usage 
 MultiNet was designed to analyze DNA methylation arrays (450K Illumina) but it could be easily extended to other types of high-dimensional data. It provides a great quantity of results focused on decoding the correlation structure and the data patterns based on different sample groups.
 
 It is designed to be useful in a global and local enviroment, so different analyses could be done using the addecuate MultiNet parameters, extracting multiple perspectives from the data.
 
-MultiNet needs the input of the main dataset plus the filter functions, and it only asks for a group of parameters before creating the networks. In addition, we have developed several functions to program helpful graphics that allow an easy data interpretation (in this case, biological interpretation), plus output documents as spreadsheets with the results. They were designed to:
+## Functionalities
+The *multinet* function was included in the program *MultiNet_Supplemental1.R*. 
+
+Additionally, we have developed several auxiliary functions to program helpful graphics that allow an easy data interpretation (in this case, biological interpretation), plus output documents as spreadsheets with the results. They are collected in the program *MultiNet_Supplemental2.R* and were designed to:
 
 1. Prepare the data, select the parameters, and generate MultiNet networks for each sample group (normally divided in overall/control/case), including colored graphs.
 
@@ -28,8 +37,8 @@ MultiNet needs the input of the main dataset plus the filter functions, and it o
     
 11. Record main results in a spreadsheet.
 
-
-After the correct pre-processing, MultiNet requires from the following parameters to obtain the mentioned results:
+## Parameters
+After the correct pre-processing, *multinet* requires from the following parameters to obtain the mentioned results:
 
 1. The creation of biological results 1=Yes; 0=No
 
@@ -57,5 +66,8 @@ After the correct pre-processing, MultiNet requires from the following parameter
 
 13. The k-means methodology
 
+## Citation
+As this function and the related ones are part of my thesis work, the citation to it will be needed. Once results are published, I will include here the corresponding citation.
 
+## Enjoy!
 Select the parameteres and prepare your folder to obtain results as fast as the speed of light!
