@@ -73,4 +73,4 @@ Out of the biological field, the program *MultiNet_Ibex35.R* contains the applic
 As this function and the related ones are part of my thesis work, the citation to it will be needed. Once results are published, I will include here the corresponding citation.
 
 ## Enjoy!
-Select the parameteres and prepare your folder to obtain results as fast as the speed of light!
+Select the parameters and prepare your folder to obtain results as fast as the speed of light!
