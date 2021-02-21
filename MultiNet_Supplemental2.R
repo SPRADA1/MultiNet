@@ -84,35 +84,38 @@ corr <- defmacro(a, a0, filter1_global1=filter1_global,filter2_global1=filter2_g
                 filter1_case1=filter1_case,filter2_case1=filter2_case,
                  expr = {
   
-  #Datos en la ventana seleccionada a:a0
+  #Data from the window selected a:a0
   all.dat.window_global<-all.dat_ord_global[a:a0,]
   tall.dat.window_global <- t(all.dat.window_global)
   dim(all.dat.window_global)
   head(all.dat.window_global)
   var_windowr_global<-rownames(all.dat.window_global)
   
-  #median
+  #filter1
   medi_global_w<-filter1_global1[var_windowr_global]
   
   #variance
   #var_s1_w<-var_s1[var_windowr_global]
   
-  #case vs control
+  #filter2
   filter1_window_global <- sort(na.omit(filter2_global1[var_windowr_global]),decreasing=TRUE)
   
-  #distancia por correlacion
+  #Correlation distance
   corwindow_global<-cor(tall.dat.window_global)
   head(corwindow_global)
   dim(corwindow_global)
   #diag(corwindow_global)<-0
   
-  #Aplicamos Mapper con nuestra propia función:
-  #object: matriz de metilación
-  #dist_object: matriz de correlaciones
-  #filter_values: funciones filtro 
-  #num_intervals: número de intervalos por ventana - cuantos más internvalos más incrementa el tiempo de computación
-  #percent_overlap: porcentaje de solapamiento entre dos intervalos contiguos
-  #num_bins_when_clustering: número de clusters por intervalo
+  #Apply a kind of Mapper with our own function
+  #object: methylation matrix
+  #dist_object: correlation matrix
+  #filter_values: filter functions
+  #num_intervals: number of intervals per window
+  #percent_overlap: percentage of intervals overlap
+  #num_bins_when_clustering: number of clusters per interval
+  #meth: clustering method
+  #pero0: rate of points in common among two nodes needed to join them
+  #corm0: mean correlation needed to join to nodes
   
   cg_aux<-intersect(names(sort(medi_global_w)),names(filter1_window_global))
   m_global <- mapper_corr_w(object=tall.dat.window_global,
@@ -126,13 +129,13 @@ corr <- defmacro(a, a0, filter1_global1=filter1_global,filter2_global1=filter2_g
                             pero0=pero,
                             corm0=corm) 
   
-  #grafos
+  #graphs
   graph_global <- graph.adjacency(m_global$adjacency, mode="undirected",weighted=TRUE)
   
   graphic_global[[a0]]<-graph_global
   mapp_global[[a0]]<-m_global
   
-  #nodos y ejes 
+  #nodes and edges
   MapperNodes_global <- na.omit(mapperVertices(m_global, 1:length(var_windowr_global)))
   MapperLinks_global <- na.omit(mapperEdges_w(m_global))
   
@@ -142,10 +145,10 @@ corr <- defmacro(a, a0, filter1_global1=filter1_global,filter2_global1=filter2_g
   #Control
   if (controlnet==1) {
     
-    #median
+    #filter 1
     medi_global_control_w<-filter1_control1[var_windowr_global]
     
-    #variance
+    #filter 2
     filter2_control_window_global <- filter2_control1[var_windowr_global] 
     
     all.dat.window_control_global <- all.dat_ord_global[var_windowr_global,rcontrol]
@@ -173,7 +176,7 @@ corr <- defmacro(a, a0, filter1_global1=filter1_global,filter2_global1=filter2_g
     graphic_control_global[[a0]]<-m.graph_control_global
     mapp_control_global[[a0]]<-m_control_global
     
-    #ejes y nodos 
+    #nodes and edges 
     MapperNodes_control_global <- na.omit(mapperVertices(m_control_global, 1:length(var_windowr_global)))
     MapperLinks_control_global <- na.omit(mapperEdges_w(m_control_global))
     
@@ -184,10 +187,10 @@ corr <- defmacro(a, a0, filter1_global1=filter1_global,filter2_global1=filter2_g
   #case
   if (casenet==1) {
     
-    #median
+    #filter 1
     medi_global_case_w<-filter1_case1[var_windowr_global]
     
-    #variance
+    #filter 2
     filter2_case_window_global <- filter2_case1[var_windowr_global] 
     
     all.dat.window_case_global <- all.dat_ord_global[var_windowr_global,rcase]
@@ -215,7 +218,7 @@ corr <- defmacro(a, a0, filter1_global1=filter1_global,filter2_global1=filter2_g
     graphic_case_global[[a0]]<-m.graph_case_global
     mapp_case_global[[a0]]<-m_case_global
     
-    #ejes y nodos 
+    #nodes and edges 
     MapperNodes_case_global <- na.omit(mapperVertices(m_case_global, 1:length(var_windowr_global)))
     MapperLinks_case_global <- na.omit(mapperEdges_w(m_case_global))
     
@@ -232,7 +235,7 @@ corr <- defmacro(a, a0, filter1_global1=filter1_global,filter2_global1=filter2_g
 
 corr1 <- defmacro(mapp, graphic, links, nodes, database, expr = {
   
-  #nuevos indices adaptados a cada ventana
+  #new node index adapted to each window
   a1<-seq(init+by+ov,maxi,ov)
   for (i in a1){
     N=length(mapp[[i]]$points_in_vertex)
@@ -247,7 +250,7 @@ corr1 <- defmacro(mapp, graphic, links, nodes, database, expr = {
       mapp[[init+by]]$points_in_vertex[[j]][k] <- mapp[[init+by]]$points_in_vertex[[j]][k] 
     }}
   
-  #Definir elementos mapper
+
   a<-seq(init+by+ov,maxi,ov)
   graphic1<-list()
   mapp1<-list()
@@ -264,7 +267,7 @@ corr1 <- defmacro(mapp, graphic, links, nodes, database, expr = {
     nodes1[[i]]=rbind(nodes[[i]],nodes1[[i-ov]])
   }
   
-  #medimos los puntos en común entre diferentes vértices, también de diferentes ventanas
+  #we take points in common among nodes in different intervals and windows
   a1<-seq(init+by+ov,maxi,ov)
   links2<-list()
   
@@ -338,7 +341,7 @@ corr1 <- defmacro(mapp, graphic, links, nodes, database, expr = {
   links2[[init+by]]<-links[[init+by]]
   colnames(links2[[init+by]])<-c("Linksource1","Linktarget1","Linkvalue1")
   
-  #unir todos los links
+  #join all links
   for (i in a1){
     links2[[i]]=rbind(links2[[i]],links2[[i-ov]])
   }
@@ -347,7 +350,7 @@ corr1 <- defmacro(mapp, graphic, links, nodes, database, expr = {
     graphic1[[i]]<-graph.data.frame(links2[[i]], directed=FALSE, vertices=NULL)
   }
   
-  #unir todos los graphic1
+  #join all graphs
   #for (i in a1){
   #  graphic1[[i]]=graph.union(graphic1[[i]],graphic1[[i-ov]])
   #}
@@ -358,10 +361,10 @@ corr1 <- defmacro(mapp, graphic, links, nodes, database, expr = {
 
 difnode <- defmacro(map,graphic2, database, subj, expr = {
   
-  #selección de nodos diferenciados entre control/case
+  #select differentiated nodes case/control
   orig3_all<-as.numeric(names(igraph::degree(graphic2)))
   
-  #obtengo las CGs que componen esos nodos
+  #points within those nodes
   p_all<-vector("list", maxi)
   a<-seq(init+by+ov,maxi,ov)
   for (i in a){
@@ -391,7 +394,7 @@ difnode <- defmacro(map,graphic2, database, subj, expr = {
   length(n1)
   
   ###############################
-  #Metilación media en cada nodo
+  #Methylation within each node
   
   n2_all<-list()
   for (i in 1:length(points)){
@@ -520,15 +523,7 @@ difnode <- defmacro(map,graphic2, database, subj, expr = {
   #names(chr)<-as.character(orig3_all)
   
   exp <- nod_met1
-  
-  #Grafo donde el color de cada nodo es su nivel de metilación
-  #Azul indice mayor nivel de metilación
-  #dev.new()
-  #gparm <- mst.plot.mod(graphic2, v.size=5,e.size=.25,
-  #mst.e.size=1.2, sf=0,mst.edge.col="white", vertex.color = "skyblue",
-  #expression=exp,
-  #layout.function=layout.fruchterman.reingold,v.lab=F,v.lab.cex=0.7,v.lab.col="white")
-  
+
   # color palette
   exp1<-as.numeric()
   max1<-as.numeric()
@@ -1054,7 +1049,7 @@ manhattan_methyl<-function (x, chr = "CHR", bp = "BP", p = "P",
 bargen <- function (cg,data,num) 
 {
   
-  #genes asociados a la CG
+  #genes associated to the site
   gensig<-annotation0[cg,]
   gensig
   gene1 <- gensig$UCSC_RefGene_Name
@@ -1074,7 +1069,7 @@ bargen <- function (cg,data,num)
     counts_gen <- table((gene1_d12))
     counts_gen_name <- rownames(counts_gen)
     
-    #porcentage relativo con respecto al total de CGs relacionadas con ese gen en nuestro array
+    #relative percentage based on the total CGs related to that gene 
     gensigall<-annotation0[rownames(data),]
     gensigall
     gene1all <- gensigall$UCSC_RefGene_Name
@@ -1093,7 +1088,7 @@ bargen <- function (cg,data,num)
     counts_all<-merge(counts_gen_num, counts_gen_numall,by="Var1")
     head(counts_all)
     
-    #porcentage con respecto al total de CGs seleccionadas
+    #percentage based on the genes associated to the total CGs selected
     counts_all$Freqall1<-length(cg)
     
     attach(counts_all)
@@ -1103,7 +1098,7 @@ bargen <- function (cg,data,num)
     graphics::barplot(counts_all$counts_per, main="Gene distribution",names.arg=as.character(counts_all$Var1),
                       col=c(hue_pal()(dim(counts_all)[1])),  cex.names = 0.65, cex.lab= 0.65,las=2)
     
-    #genes m?s presentes
+    #genes more present
     counts_sig<- counts_all[counts_all$counts_per>max(counts_all$counts_per)/2,]
     graphics::barplot(counts_sig$counts_per, main="Gene distribution - Genes more present",names.arg=as.character(counts_sig$Var1),
                       col=c(hue_pal()(dim(counts_sig)[1])),  cex.names = 0.65, cex.lab= 0.65,las=2)
@@ -1120,7 +1115,7 @@ bargen <- function (cg,data,num)
 sitegen <- function (cg1,cg2,data,num) 
 {
   
-  #genes asociados a la CG
+  #genes associated to the CG
   gensig<-annotation[cg1,]
   gensig
   gene1 <- gensig$UCSC_RefGene_Group
@@ -1140,7 +1135,6 @@ sitegen <- function (cg1,cg2,data,num)
     counts_gen <- table((gene1_d12))
     counts_gen_name <- rownames(counts_gen)
     
-    #porcentage relativo con respecto al total de CGs relacionadas con ese gen en nuestro array
     gensigall<-annotation[cg2,]
     gensigall
     gene1all <- gensigall$UCSC_RefGene_Group
@@ -1178,14 +1172,7 @@ sitegen <- function (cg1,cg2,data,num)
       scale_fill_manual(values=c("#74ADD1","#F46D43"))+xlab("Genomic region")+ylab("Percentage")+
       theme(text = element_text(size=15)) 
     print(gplot)
-    #graphics::barplot(counts_all$counts_per, main="Site distribution",names.arg=as.character(counts_all$Var1),
-    #                  col=c(hue_pal()(dim(counts_all)[1])),  cex.names = 1, cex.lab= 1,las=2)
-    
-    #genes m?s presentes
-    #counts_sig<- counts_all[counts_all$counts_per>max(counts_all$counts_per)/2,]
-    #graphics::barplot(counts_sig$counts_per, main="Site distribution - Genes more present",names.arg=as.character(counts_sig$Var1),
-    #                  col=c(hue_pal()(dim(counts_sig)[1])),  cex.names = 0.65, cex.lab= 0.65,las=2)
-    
+
     gene1_d123<-gene1_d12[counts_all$Var1]
     out <- list(counts_all$Var1, counts_all$counts_per,gene1_d12)  
     return(out)
@@ -1198,7 +1185,7 @@ sitegen <- function (cg1,cg2,data,num)
 islandgen <- function (cg1,cg2,data,num) 
 {
   
-  #genes asociados a la CG
+  #genes associated to the CG
   gensig<-annotation[cg1,]
   gensig
   gene1 <- gensig$Relation_to_Island
@@ -1218,7 +1205,6 @@ islandgen <- function (cg1,cg2,data,num)
     counts_gen <- table((gene1_d12))
     counts_gen_name <- rownames(counts_gen)
     
-    #porcentage relativo con respecto al total de CGs relacionadas con ese gen en nuestro array
     gensigall<-annotation[cg2,]
     gensigall
     gene1all <- gensigall$Relation_to_Island
@@ -1256,14 +1242,7 @@ islandgen <- function (cg1,cg2,data,num)
       scale_fill_manual(values=c("#74ADD1","#F46D43"))+xlab("Island or Ocean")+ylab("Percentage")+
       theme(text = element_text(size=15)) 
     print(gplot)
-    #graphics::barplot(counts_all$counts_per, main="Site distribution",names.arg=as.character(counts_all$Var1),
-    #                  col=c(hue_pal()(dim(counts_all)[1])),  cex.names = 1, cex.lab= 1,las=2)
-    
-    #genes m?s presentes
-    #counts_sig<- counts_all[counts_all$counts_per>max(counts_all$counts_per)/2,]
-    #graphics::barplot(counts_sig$counts_per, main="Site distribution - Genes more present",names.arg=as.character(counts_sig$Var1),
-    #                  col=c(hue_pal()(dim(counts_sig)[1])),  cex.names = 0.65, cex.lab= 0.65,las=2)
-    
+
     gene1_d123<-gene1_d12[counts_all$Var1]
     out <- list(counts_all$Var1, counts_all$counts_per,gene1_d12)  
     return(out)
