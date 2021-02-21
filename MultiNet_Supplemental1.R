@@ -10,7 +10,6 @@ multinet<-defmacro(all.dat_ord_global ,filter1_global,filter2_global,
   
 ###################################################################
 #READ PARAMETERS
-
                      
 print("Please include MultiNet parameters")
 
@@ -52,26 +51,6 @@ if (is.na(corm)) {corm=0.8}
 method_map<-readline(prompt="Cluster method: ")
 if (method_map=="") {method_map="Forgy"}
   
-
-# #EMOJI
-# reset_par()
-# 
-# earth <- image_read("pic.gif") %>%
-#   image_scale("300x") 
-# (earth) %>% 
-#   image_annotate("Running...", size = 50, color = "white")
-
-###################################################################
-#START
-
-#max_dur=maxiall
-#A progress bar in percent
-#for (i in 0:100) {
-#  progress(i, progress.bar = TRUE)
-#  Sys.sleep(0.5*maxiall)
-#  if (i == 100) message("Done!")
-#}
-
 ###################################################################
 ##INITIALIZE PARAMETERS
 
@@ -115,7 +94,7 @@ corr(init,init+by,filter1_global,filter2_global,
      filter1_case,filter2_case)
 tictoc::toc()
 
-#Resto de ventanas
+#The rest of the windows
 maxi0=max
 a<-seq(init+by-ov,maxi0,ov) 
 for (h in a){
@@ -134,7 +113,7 @@ tictoc::toc()
 print("MultiNet per window - end")
 
 ###################################################################
-##Macro para reorganizar ejes entre vértices con puntos en común
+##Macro to reorganize vertices between nodes with points in common
 
 print("MultiNet: joining of window networks - start")
 
@@ -161,7 +140,7 @@ print("MultiNet running time")
 print(total_time)
 
 ##########################################################
-##Representamos los grafos y los clusters de sus nodos
+##Graph representation
 
 reset_par()
 
@@ -171,7 +150,6 @@ deg_global<-igraph::degree(graphic1_global[[maxi]])
 #adjacency
 adja_global<-get.adjacency(graphic1_global[[maxi]])
 
-#representamos los grafos en base a los nodos seleccionados
 graphic2_global<-induced_subgraph(graphic1_global[[maxi]], vids=V(graphic1_global[[maxi]]), impl = c("auto", "copy_and_delete","create_from_scratch"))
 
 png("Global_Overall_Network.png", width = 6, height = 6, units = 'in', res = 600)
@@ -226,9 +204,8 @@ if (controlnet==1){
 
 ###################################################################
 #NETWORK MANIPULATION
-#####################################################################
 
-#Macro para estudiar las CGs contenidas en los nodos diferenciados  
+#Macro to study the CpGs contained in the selected differentiated nodes  
 print("MultiNet: colored networks - start")
 
 difnode (mapp_global, graphic2_global,all.dat_ord_global,subj=colnames(all.dat_ord_global))
@@ -367,7 +344,7 @@ if (controlnet==1){
 
 print("MultiNet: colored networks - end")
 
-#histograms of the three variables distribution among case and control
+#Histograms of the three variables distribution among case and control
 
 if (casenet==1 & controlnet==1){
   
@@ -401,7 +378,6 @@ print(hist2)
 dev.off()
 
 #correlation
-#difference
 df <- data.frame(
   sample=factor(c(rep("Case",length(cor_met_med_case)),rep("Control",length(cor_met_med_control)))),
   nodes=(c(cor_met_med_case,cor_met_med_control)))
@@ -502,9 +478,9 @@ if (casenet==1 & controlnet==1){
 }
 
 ##############################################
-#DMRs=Differentially Methylated Region
-#DMSs=Differentially Methylated Subject
-#DMCs=Differentially Methylated Correlation
+#DMSs=Differentially Methylated Sites
+#SMSs=Similarly Methylated Sites
+#HCSs=Highly Correlated Sites
 
 if(biological==1){
 
@@ -721,9 +697,9 @@ png("dms_global_genes_rforest.png", width = 8, height =8, units = 'in', res = 60
 print(rforest2)
 dev.off()
 
-#predicci?n
+#predictions
 #predicciones <- predict(modelo, test)
-#t <- with(test, table(predicciones, class)) # Matriz de confusi?n
+#t <- with(test, table(predicciones, class)) 
 #t ; 100 * sum(diag(t)) / sum(t)
 
 #heatmaps
@@ -879,8 +855,6 @@ dev.off()
 
 print("MultiNet: correlation heatmaps - end")
 
-#genes and CGs hypo and hyper from dms_global
-
 print("MultiNet: DMSs regions and trends - start")
 
 png("dms_genes_global.png", width = 10, height =10, units = 'in', res = 600)
@@ -911,24 +885,6 @@ reset_par()
 par(mfrow=c(2,1))
 barcor<-bargen(names(dms_global_hypo),all.dat_ord_global,0)
 dev.off()
-# 
-# #print specific gene methylation by group
-# relev_ss<-relev_s[relev_s$gene %in% c("HLA-J","SLC6A3","SFXN5","OR5P3","PFKP","ATP13A5"),]
-# 
-# dat_box<-as.data.frame(t(all.dat_ord_global[rownames(relev_ss),c(rcase,rcontrol)]))
-# dat_box$cat<-c(rep("Cancer",length(rcase)),rep("Benign",length(rcontrol)))
-# 
-# colnames(dat_box)<-c(relev_ss$gene,"cat")
-# 
-# dat_boxm<-melt(dat_box)
-# head(dat_boxm)
-# colnames(dat_boxm)<-c("Status", "Gene","Methylation")
-# 
-# # one box per variety
-# p2 <- ggplot(dat_boxm, aes(x=Gene, y=Methylation, fill=Status)) + 
-# geom_boxplot() +
-# facet_wrap(~Gene, scale="free")
-# p2
 
 #hyper meth
 difcg(exp1_all_global,c("1"),pointnode_all_global,all.dat_ord_global,c(rcase,rcontrol),pngname="global_hyper_methyl.png",
