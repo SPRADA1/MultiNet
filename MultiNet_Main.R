@@ -46,7 +46,7 @@ library(wesanderson)
 library(RColorBrewer)
 
 #Directory to save MultiNet outputs
-setwd("")
+setwd("...")
 
 #Call supplemental scripts containing needed functions
 source(".../MultiNet_Supplemental1.R") 
