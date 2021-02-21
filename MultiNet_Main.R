@@ -45,12 +45,12 @@ library(corrplot)
 library(wesanderson)
 library(RColorBrewer)
 
-#Directory
-setwd("F:/DOCTORADO/TESIS/GSE76938/test/5")
+#Directory to save MultiNet outputs
+setwd("")
 
 #Call supplemental scripts containing needed functions
-source("F:/DOCTORADO/PROGRAMAS/TESIS PROGRAMS/MultiNet_Supplemental1.R") 
-source("F:/DOCTORADO/PROGRAMAS/TESIS PROGRAMS/MultiNet_Supplemental2.R") 
+source(".../MultiNet_Supplemental1.R") 
+source(".../MultiNet_Supplemental2.R") 
 
 #################################
 #Download the database/450K array
