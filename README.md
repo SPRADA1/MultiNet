@@ -4,7 +4,7 @@
 ## Overview
 MultiNet is a computational algorithm of topological data analysis (TDA) that manages high-dimensional datasets obtaining multiple results. It is a compound of different R functions of data analysis, having as basis the TDA's idea of representing the shape of the data cloud creating simplicial complexes from data. 
 
-Refer to this repository when using MultiNet for your research!
+Refer to this repository when using MultiNet for your research! https://github.com/SPRADA1/MultiNet/
 
 ## Installation and Sample Code
 Please follow the program guide in the MultiNet repository called *MultiNet_Main.R*.
