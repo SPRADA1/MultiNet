@@ -4,23 +4,6 @@
 ## Sara Prada, October 2020
 ###################################################################
 
-#####################
-#Load needed packages
-
-# load.lib<-c("minfi", "GEOquery", "igraph","png","grid","gridExtra",
-#             "gapminder","tidyverse","lme4","ggpubr","np","logistf","sgof","qvalue",
-#             "multtest","randomForest","circlize","BioCircos","circular","OmicCircos","migest",
-#             "sp","sqldf","stockPortfolio","stringi","stringr","XLConnect",
-#             "ReactomePA","enrichplot","clusterProfiler","org.Hs.eg.db","qqman","calibrate","netbiov",
-#             "plot3D","ggplot2","gtools","IlluminaHumanMethylation450kanno.ilmn12.hg19",
-#             "IlluminaHumanMethylation450kmanifest","effsize","scales","ComplexHeatmap","DOSE","corrplot",
-#              "RColorBrewer","wesanderson")
-# 
-# 
-# install.lib<-load.lib[!load.lib %in% installed.packages()]
-# for(lib in install.lib) install.packages(lib,dependencies=TRUE)
-# sapply(load.lib,require,character=TRUE)
-
 library(minfi)
 library(GEOquery)
 library(igraph)
