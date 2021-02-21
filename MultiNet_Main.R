@@ -97,11 +97,11 @@ dim(all.dat)
 annotation<-annotation0[rownames(all.dat),]
 dim(annotation)
 
-##Eliminamos cromosomas X e Y
+##Remove sites related to chromosomes X and Y
 nox<-annotation[annotation$chr!="chrX" & annotation$chr!="chrY",]
 noxr <- rownames(nox)
 
-##Eliminamos SNPs
+##Remove sites related to SNPs
 snps<-annotation[is.na(annotation$Probe_rs),]
 snpsr <- rownames(snps)
 
@@ -216,7 +216,6 @@ multinet(all.dat_ord_global=all.dat_ord_global ,filter1_global= medi_global,filt
 
 ###############
 #Local MultiNet
-
 chr1<-as.numeric(substr(annotation[rownames(all.dat1),]$chr,4,6))
 sort(chr1)
 annotation_chr<-cbind(annotation[rownames(all.dat1),],chr1)
